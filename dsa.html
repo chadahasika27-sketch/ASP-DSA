@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Academic Study Planner Using AI</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f6ff;
+text-align:center;
+}
+
+.container{
+background:white;
+width:420px;
+margin:60px auto;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input,select,button{
+padding:10px;
+margin:10px;
+width:80%;
+}
+
+button{
+background:#2b4eff;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e36b3;
+}
+
+table{
+margin:auto;
+margin-top:20px;
+border-collapse:collapse;
+}
+
+table,th,td{
+border:1px solid black;
+padding:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Academic Study Planner Using AI</h1>
+
+<!-- LOGIN PAGE -->
+
+<div class="container" id="loginPage">
+
+<h2>Login</h2>
+
+<input type="text" id="username" placeholder="Username"><br> <input type="password" id="password" placeholder="Password"><br>
+
+<button onclick="login()">Login</button>
+
+<p id="loginMsg"></p>
+
+</div>
+
+<!-- PLANNER PAGE -->
+
+<div class="container" id="plannerPage" style="display:none">
+
+<h2>Create Study Plan</h2>
+
+<input type="text" id="subject" placeholder="Enter Subject"><br>
+
+<input type="number" id="hours" placeholder="Study Hours Per Day"><br>
+
+<select id="priority">
+<option value="">Select Priority</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+
+<select id="planType">
+<option value="">Select Plan Type</option>
+<option value="week">Weekly Timetable</option>
+<option value="month">Monthly Timetable</option>
+</select>
+
+<button onclick="generateTable()">Generate Timetable</button>
+
+<div id="output"></div>
+
+</div>
+
+<script>
+
+function login(){
+
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+if(user=="hasika" && pass=="1234"){
+
+document.getElementById("loginPage").style.display="none";
+document.getElementById("plannerPage").style.display="block";
+
+}
+else{
+
+document.getElementById("loginMsg").innerHTML="Invalid Username or Password";
+
+}
+
+}
+
+
+function generateTable(){
+
+let subject=document.getElementById("subject").value;
+let hours=document.getElementById("hours").value;
+let priority=document.getElementById("priority").value;
+let type=document.getElementById("planType").value;
+
+if(subject=="" || hours=="" || priority=="" || type==""){
+document.getElementById("output").innerHTML="Please fill all fields";
+return;
+}
+
+let days=[];
+
+if(type=="week"){
+days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+}
+
+if(type=="month"){
+for(let i=1;i<=30;i++){
+days.push("Day "+i);
+}
+}
+
+let table="<table>";
+table+="<tr><th>Day</th><th>Time</th><th>Subject</th><th>Priority</th></tr>";
+
+let start=6;
+
+for(let i=0;i<days.length;i++){
+
+let end=start+parseInt(hours);
+
+table+="<tr>";
+table+="<td>"+days[i]+"</td>";
+table+="<td>"+start+":00 - "+end+":00</td>";
+table+="<td>"+subject+"</td>";
+table+="<td>"+priority+"</td>";
+table+="</tr>";
+
+}
+
+table+="</table>";
+
+document.getElementById("output").innerHTML=table;
+
+}
+
+</script>
+
+</body>
+</html>
